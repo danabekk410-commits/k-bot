@@ -1,0 +1,2 @@
+# Разовые напоминалки + вечерний чек в 17:00 по Алматы (сервер в UTC, скрипт сам переводит время)
+*/5 * * * * mkdir -p /path/to/k-bot/logs && /usr/bin/python3 /path/to/k-bot/bin/remind.py >> /path/to/k-bot/logs/remind.log 2>&1

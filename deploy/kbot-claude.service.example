@@ -1,0 +1,22 @@
+# systemd-юнит: Claude Code с Telegram-каналом, работает как отдельный пользователь.
+# Замените USER и /path/to/k-bot на свои значения.
+[Unit]
+Description=K-Bot — бот учёта кофейни (Claude Code)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=USER
+Group=USER
+WorkingDirectory=/path/to/k-bot
+Environment=HOME=/home/USER
+Environment=PATH=/home/USER/.bun/bin:/home/USER/.local/bin:/usr/local/bin:/usr/bin:/bin
+# script даёт Claude Code псевдотерминал, без него TUI не стартует под systemd
+ExecStart=/usr/bin/script -q -f -c "cd /path/to/k-bot && exec claude --dangerously-skip-permissions --model sonnet --disallowedTools AskUserQuestion --channels plugin:telegram@claude-plugins-official" /dev/null
+Restart=always
+RestartSec=15
+MemoryMax=1500M
+
+[Install]
+WantedBy=multi-user.target
